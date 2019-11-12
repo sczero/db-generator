@@ -8,7 +8,6 @@ import (
 	"github.com/jmoiron/sqlx"
 	"github.com/sczero/db-generator/model"
 	"io/ioutil"
-	"log"
 	"os"
 	"os/exec"
 	"path"
@@ -19,15 +18,15 @@ var pool *sqlx.DB
 var config model.Config
 
 func main() {
-	arg := flag.Arg(1)
-	file, e := os.Open(arg)
+	flag.Parse()
+	configPath := flag.Arg(0)
+	file, e := os.Open(configPath)
 	if e != nil {
-		panic(fmt.Errorf("打开文件出错: %w", e))
+		panic(fmt.Errorf("打开文件出错,路径:%s(%w)", configPath, e))
 	}
 	bytes, _ := ioutil.ReadAll(file)
 
 	_ = json.Unmarshal(bytes, &config)
-	log.Println(config)
 	pool, _ = sqlx.Open("mysql", fmt.Sprintf("%s:%s@%s(%s)/%s", config.Username, config.Password, config.Protocol, config.Address, config.Dbname))
 
 	_ = os.MkdirAll(config.OutputDir, os.ModePerm)
