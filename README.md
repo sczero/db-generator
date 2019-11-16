@@ -6,7 +6,7 @@
 
 ## 使用方法
 ```shell script
-db-generator config.template.json
+go-db2struct config.template.json
 ```
 
 ```json

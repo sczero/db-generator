@@ -1,4 +1,4 @@
-module github.com/sczero/db-generator
+module github.com/sczero/go-db2struct
 
 go 1.13
 
